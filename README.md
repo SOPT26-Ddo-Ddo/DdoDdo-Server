@@ -11,6 +11,13 @@
 | 마니또 알고리즘 수행해서 마니또 정보 넣어주고, 값 가져오기 | 마니또 결과 화면 | /group/:groupIdx/Manito | GET |
 
 
+***
+
+## API 명세서 링크
+https://github.com/SOPT26-Ddo-Ddo/DdoDdo-Server/wiki
+
+
+
 
 ***
 
