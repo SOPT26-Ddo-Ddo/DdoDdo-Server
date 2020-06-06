@@ -18,6 +18,24 @@ https://github.com/SOPT26-Ddo-Ddo/DdoDdo-Server/wiki
 
 
 
+***
+
+## EC2 서버 구동 결과 화면
+
+* 홈 화면 결과
+
+![홈 화면 ec2](https://user-images.githubusercontent.com/37949197/83956228-98c79980-a896-11ea-8a5b-a604cc849663.png)
+
+
+* 그룹 조회 화면
+
+![그룹 조회 화면](https://user-images.githubusercontent.com/37949197/83956229-99f8c680-a896-11ea-9608-4691a82f1b4e.png)
+
+
+* 마니또 매칭 화면
+
+
+
 
 ***
 
@@ -25,4 +43,7 @@ https://github.com/SOPT26-Ddo-Ddo/DdoDdo-Server/wiki
 ## Database ERD
 
 <img width="688" alt="KakaoTalk_20200607_014438116" src="https://user-images.githubusercontent.com/37949197/83949770-8cc0e500-a860-11ea-9776-fe3229eb5a42.png">
+
+
+
 
