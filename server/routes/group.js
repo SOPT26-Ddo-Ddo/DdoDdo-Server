@@ -11,7 +11,6 @@ router.get('/:groupIdx', async (req, res) => {
   const groupIdx = req.params.groupIdx;
   const groupResult = await GroupModel.getGroupInfoRead(groupIdx);
   const userResult = await GroupModel.getGroupUserRead(groupIdx);
-  console.log(userResult)
 
   // 해당 그룹 존재하지 않음
   if (groupResult.length == 0) {
@@ -26,7 +25,7 @@ router.get('/:groupIdx', async (req, res) => {
 
   res.status(statusCode.OK)
     .send(util.success(statusCode.OK, resMessage.GROUP_SUCCESS, {
-      groupInfo: groupResult,
+      groupInfo: groupResult[0],
       groupUser: userResult
     }));
 });
