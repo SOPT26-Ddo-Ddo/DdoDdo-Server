@@ -9,13 +9,18 @@ let GroupModel = require('../models/group');
 /* 특정 그룹 정보 조회 */
 router.get('/:groupIdx', async (req, res) => {
   const groupIdx = req.params.groupIdx;
-
   const groupResult = await GroupModel.getGroupInfoRead(groupIdx);
   const userResult = await GroupModel.getGroupUserRead(groupIdx);
+  console.log(userResult)
 
   // 해당 그룹 존재하지 않음
-  if (result.length == 0) {
-    res.status(statusCode.BAD_REQUEST)
+  if (groupResult.length == 0) {
+    return res.status(statusCode.BAD_REQUEST)
+      .send(util.fail(statusCode.BAD_REQUEST, resMessage.GROUP_FAIL));
+  }
+
+  if (userResult.length == 0) {
+    return res.status(statusCode.BAD_REQUEST)
       .send(util.fail(statusCode.BAD_REQUEST, resMessage.GROUP_FAIL));
   }
 

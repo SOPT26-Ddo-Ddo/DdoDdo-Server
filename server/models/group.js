@@ -20,7 +20,7 @@ const group = {
 
     // 특정 그룹 정보 조회
     getGroupInfoRead: async (groupIdx) => {
-        const query = `SELECT * FROM Group WHERE groupIdx=${groupIdx}`;
+        const query = `SELECT * FROM sopkathon.Group WHERE groupIdx=${groupIdx}`;
 
         try {
             const result = await pool.queryParam(query);
@@ -39,7 +39,7 @@ const group = {
 
         try {
 
-            const result = await pool.queryParam(query2);
+            const result = await pool.queryParam(query);
             return result;
         } catch (err) {
             console.log('GroupUserRead ERROR : ', err);
