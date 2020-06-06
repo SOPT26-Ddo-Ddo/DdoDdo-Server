@@ -28,6 +28,9 @@ module.exports = {
     // 프로필 조회
     READ_PROFILE_SUCCESS: "프로필 조회 성공",
 
-
+    // 마니또 생성
+    MANITTO_SUCCESS: "마니또 매칭 성공",
+    MANITTO_FAIL: "마니또 매칭 실패",
+    
     DB_ERROR: "DB 오류"
 };

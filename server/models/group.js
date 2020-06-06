@@ -46,9 +46,23 @@ const group = {
             console.log('GroupUserRead ERROR : ', err);
             throw err;
         }
-    }
+    },
+    setManito: async (groupIdx, manito_list) => {
+        for (user in manito_list){
+            // user -> manito_list[user]
+            let fields = 'groupIdx, userIdx, manito';
+            let questions = '?, ?, ?';
+            let values = [groupIdx, user, manito_list[user]];
+            let query = `INSERT INTO UserGroup (${fields}) VALUES(${questions})`;
 
-
+            try {
+                const result = await pool.queryParamArr(query, values);
+            }catch (err){
+                console.log('GroupUserRead ERROR : ', err);
+                throw err;
+            }
+        }
+    },
 }
 
 

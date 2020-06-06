@@ -11,6 +11,14 @@ const user = {
             throw err;
         }
     },
+    getUserByIdx: async (userIdx) => {
+        const query = `SELECT * FROM ${table} WHERE userIdx = "${userIdx}"`;
+        try {
+            return await pool.queryParam(query);
+        } catch (err) {
+            throw err;
+        }
+    },
     getUserList: async () => {
         const query = `SELECT * FROM ${table}`;
         try {
