@@ -34,6 +34,7 @@ https://github.com/SOPT26-Ddo-Ddo/DdoDdo-Server/wiki
 
 * 마니또 매칭 화면
 
+![image](https://user-images.githubusercontent.com/37949197/83956867-42aa2480-a89d-11ea-854e-4f9e1b9183f2.png)
 
 
 
