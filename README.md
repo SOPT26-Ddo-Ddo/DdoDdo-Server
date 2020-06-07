@@ -1,4 +1,5 @@
-# DdoDdo-Server 김민지, 
+# DdoDdo-Server 
+김민지, 김보배
 
 
 ## ✔️ BASE URL : 52.78.27.117:3000/
