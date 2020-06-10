@@ -18,6 +18,10 @@ module.exports = {
     GROUP_FAIL: "그룹 조회 실패",
     NO_POST: "존재하지 않는 회원입니다.",
 
+    // 홈 데이터
+    HOME_SUCCESS: "홈 데이터 조회 성공",
+    HOME_FAIL: "홈 데이터 조회 실패",
+
     // 인증
     EMPTY_TOKEN: '토큰 값이 없습니다.',
     EXPIRED_TOKEN: '토큰 값이 만료되었습니다.',
@@ -29,8 +33,8 @@ module.exports = {
     READ_PROFILE_SUCCESS: "프로필 조회 성공",
 
     // 마니또 생성
-    MANITTO_SUCCESS: "마니또 매칭 성공",
-    MANITTO_FAIL: "마니또 매칭 실패",
+    MANITO_SUCCESS: "마니또 매칭 성공",
+    MANITO_FAIL: "마니또 매칭 실패",
     
     DB_ERROR: "DB 오류"
 };
