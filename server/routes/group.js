@@ -1,13 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
+const GroupModel = require('../models/group');
+const UserModel = require('../models/user');
+
 const util = require('../modules/util');
 const statusCode = require('../modules/statusCode');
 const resMessage = require('../modules/responseMessage');
-const GroupModel = require('../models/group');
-const UserModel = require('../models/user');
-const authUtil = require('../middlewares/auth');
+const manito = require('../modules/manito');
 
+const authUtil = require('../middlewares/auth');
 
 /* 그룹 만들기 */
 router.post('/', authUtil.checkToken, async (req, res) => {
@@ -37,7 +39,7 @@ router.post('/', authUtil.checkToken, async (req, res) => {
 
 
 /* 유저->그룹 들어가기 */
-router.get('/in/:groupIdx', authUtil.checkToken, async (req, res) => {
+router.get('/:groupIdx/in', authUtil.checkToken, async (req, res) => {
     const user = req.decoded;
     const groupIdx = req.params.groupIdx;
     const result = await GroupModel.setInGroup(groupIdx, user.idx);
@@ -83,53 +85,27 @@ router.get('/:groupIdx', async (req, res) => {
 router.get('/:groupIdx/manito', authUtil.checkToken, async (req, res) => {
     const groupIdx = req.params.groupIdx;
     const userResult = await GroupModel.getGroupUserRead(groupIdx); //특정 그룹 사용자 조회
+
     // 해당 그룹 존재하지 않음
     if (userResult.length == 0) {
         return res.status(statusCode.BAD_REQUEST)
             .send(util.fail(statusCode.BAD_REQUEST, resMessage.MANITTO_FAIL));
     }
 
-    // 마니또 뽑기
-    let ind = []
-    for (let user of userResult) {
-        ind.push(user.userIdx);
+    const manitoList = await manito.getManito(userResult, groupIdx);
+    const result = await GroupModel.setManito(groupIdx, userResult, manitoList);
+    if (result < 0) {
+        return res.status(statusCode.BAD_REQUEST)
+            .send(util.fail(statusCode.BAD_REQUEST, resMessage.MANITO_FAIL));
     }
-
-    var manitos = {};
-    let size = ind.length;
-
-    for (let i in userResult) {
-        if (i == size - 1)
-            manitos[userResult[i].userIdx] = userResult[0].userIdx;
-        manitos[userResult[i].userIdx] = userResult[i].userIdx + 1;
-    }
-
-    // for(let user of userResult){
-    //   let k = user.userIdx;
-    //   let delete_index = 0; 
-    //   while (k == user.userIdx){
-    //     let i = Math.floor(Math.random() * size);
-    //     k = ind[i];
-    //     delete_index = i;
-    //   }
-    //   let manito = k;
-    //   manitos[user.userIdx] = manito;
-    //   ind.splice(delete_index, 1);
-    //   size-=1;
-    // }
-
-    // manito 저장
-    await GroupModel.setManito(groupIdx, manitos);
-
-
 
     // 유저 가져오기
     const user = req.decoded;
+    const userManito = await UserModel.getUserByIdx(manitoList[user.idx]);
 
-    const manitoUser = await UserModel.getUserByIdx(manitos[user.idx]);
     res.status(statusCode.OK)
         .send(util.success(statusCode.OK, resMessage.MANITTO_SUCCESS, {
-            'myManito': manitoUser[0]
+            'myManito': userManito[0]
         }));
 });
 
