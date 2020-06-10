@@ -14,6 +14,10 @@ const group = {
             const result = await pool.queryParam(query);
             return result;
         } catch (err) {
+            if (err.errno == 1062) {
+                console.log('GroupAllRead ERROR : ', err.errno, err.code);
+                return -1;
+            }
             console.log('GroupAllRead ERROR : ', err);
             throw err;
         }
@@ -27,6 +31,10 @@ const group = {
             const result = await pool.queryParam(query);
             return result;
         } catch (err) {
+            if (err.errno == 1062) {
+                console.log('GroupInfoRead ERROR : ', err.errno, err.code);
+                return -1;
+            }
             console.log('GroupInfoRead ERROR : ', err);
             throw err;
         }
@@ -39,11 +47,53 @@ const group = {
         AS R ON U.userIdx = R.userIdx`;
 
         try {
-
             const result = await pool.queryParam(query);
             return result;
         } catch (err) {
+            if (err.errno == 1062) {
+                console.log('GroupUserRead ERROR : ', err.errno, err.code);
+                return -1;
+            }
             console.log('GroupUserRead ERROR : ', err);
+            throw err;
+        }
+    },
+    setGroup: async (groupPwd, name, numPeople, deadline, fix, finish, leader) => {
+        const fields = 'groupPwd, name, numPeople, deadline, fix, finish, leader';
+        const questions = '?, ?, ?, ?, ?, ?, ?';
+        const values = [groupPwd, name, numPeople, deadline, fix, finish, leader];
+        const query = `INSERT INTO sopkathon.Group (${fields}) VALUES(${questions})`;
+
+        try {
+            const result = await pool.queryParamArr(query, values);
+            const insertId = result.insertId;
+            return insertId;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('setGroup ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('setGroup ERROR : ', err);
+            throw err;
+        }
+    },
+    setInGroup: async (groupIdx, userIdx) => {
+        // 맨 처음 마니또 설정은 자기 자신
+        const fields = 'userIdx, manito, groupIdx';
+        const questions = '?, ?, ?';
+        const values = [userIdx, userIdx, groupIdx];
+        const query = `INSERT INTO sopkathon.UserGroup (${fields}) VALUES(${questions})`;
+
+        try {
+            const result = await pool.queryParamArr(query, values);
+            const insertId = result.insertId;
+            return insertId;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('setInGroup ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('setInGroup ERROR : ', err);
             throw err;
         }
     },
@@ -57,8 +107,14 @@ const group = {
 
             try {
                 const result = await pool.queryParamArr(query, values);
-            }catch (err){
-                console.log('GroupUserRead ERROR : ', err);
+                const insertId = result.insertId;
+                return insertId;
+            } catch (err) {
+                if (err.errno == 1062) {
+                    console.log('setManito ERROR : ', err.errno, err.code);
+                    return -1;
+                }
+                console.log('setManito ERROR : ', err);
                 throw err;
             }
         }

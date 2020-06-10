@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 
     return res.status(statusCode.OK)
         .send(util.success(statusCode.OK, resMessage.LOGIN_SUCCESS, {
-            accessToken: token
+            token: token
         }));
 });
 module.exports = router;

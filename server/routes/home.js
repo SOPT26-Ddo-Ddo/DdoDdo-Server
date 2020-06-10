@@ -3,40 +3,27 @@ var router = express.Router();
 const util = require('../modules/util')
 const statusCode = require('../modules/statusCode');
 const resMessage = require('../modules/responseMessage');
-const TOKEN_EXPIRED = -3;
-const TOKEN_INVALID = -2;
-const jwt = require('../modules/jwt');
 const GroupModel = require('../models/group');
+const authUtil = require('../middlewares/auth');
 
-/* GET users listing. */
-router.get('/', async (req, res) => {
-    const token = req.headers.token;
-    if (!token) {
-        return res.json(util.fail(statusCode.BAD_REQUEST, resMessage.EMPTY_TOKEN));
-    }
-    const user = await jwt.verify(token);
-    // idx, name, profileMsg 가져옴
-    if (user === TOKEN_EXPIRED) {
-        return res.json(util.fail(statusCode.UNAUTHORIZED, resMessage.EXPIRED_TOKEN));
-    }
-    if (user === TOKEN_INVALID) {
-        return res.json(util.fail(statusCode.UNAUTHORIZED, resMessage.INVALID_TOKEN));
-    }
-    if (user.idx === undefined) {
-        return res.json(util.fail(statusCode.UNAUTHORIZED, resMessage.INVALID_TOKEN));
-    }
+router.get('/', authUtil.checkToken, async (req, res) => {
+    const user = req.decoded;
 
-    
     const groupResult = await GroupModel.getGroupAllRead(user.idx);
+    if (groupResult < 0) {
+        return res.status(statusCode.BAD_REQUEST)
+            .send(util.fail(statusCode.BAD_REQUEST, resMessage.HOME_FAIL));
+    }
+    
     let on = [], off = [];
-    for(let group of groupResult){
+    for (let group of groupResult) {
         delete group.groupPwd;
         if (group.finish === 0)
             on.push(group);
         else
             off.push(group);
     }
-    
+
     const data = {
         idx: user.idx,
         name: user.name,
@@ -46,9 +33,7 @@ router.get('/', async (req, res) => {
     };
 
     return res.status(statusCode.OK)
-    .send(util.success(statusCode.OK, resMessage.ALL_POST_SUCCESS, data));
-
-    
+        .send(util.success(statusCode.OK, resMessage.HOME_SUCCESS, data));
 });
 
 module.exports = router;
