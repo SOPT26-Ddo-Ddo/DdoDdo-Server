@@ -6,10 +6,15 @@
 
 | 기능 | 뷰 | URL | method |
 |---|-----------|-------------|---|
-| 토큰 부여 | 홈 화면 | /token/ | GET | 
+| 토큰 부여(해커톤 성 일회용) | 홈 화면 | /token/ | GET | 
+| 회원가입 | - | /user/signup | Post|
+| 로그인 | - |/user/signin | Post |
+| 모든 프로필 조회 | - | /user/profile | GET |
+| 특정 프로필 조회 | - | /user/profile/:userId | GET |
 | 특정 아이디가 속해 있는 그룹 리스트 | 홈 화면 | /home/ | GET |
 | 특정 그룹 정보 조회 | 버디버디 4조 화면 | /group/:groupIdx/ | GET |
 | 마니또 알고리즘 수행해서 마니또 정보 넣어주고, 값 가져오기 | 마니또 결과 화면 | /group/:groupIdx/Manito | GET |
+
 
 
 ***
