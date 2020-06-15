@@ -1,5 +1,5 @@
 # DdoDdo-Server 
-김민지, 김보배
+팀원: 김민지, 김보배
 
 
 ## ✔️ BASE URL : 52.78.27.117:3000/
@@ -16,6 +16,11 @@
 
 ## API 명세서 링크
 https://github.com/SOPT26-Ddo-Ddo/DdoDdo-Server/wiki
+
+
+***
+## server architecture
+![서버 아키텍쳐](https://user-images.githubusercontent.com/37949197/84629938-14c08200-af26-11ea-819a-653a1c7b56a1.png)
 
 
 
