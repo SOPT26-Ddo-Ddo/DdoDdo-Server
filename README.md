@@ -20,7 +20,7 @@ https://github.com/SOPT26-Ddo-Ddo/DdoDdo-Server/wiki
 
 ***
 ## server architecture
-![서버 아키텍쳐](https://user-images.githubusercontent.com/37949197/84632496-f6f51c00-af29-11ea-9117-bb85d51869ad.png)
+![서버 아키텍쳐](https://user-images.githubusercontent.com/37949197/84633151-edb87f00-af2a-11ea-91da-38ac21e1f5e4.png)
 
 
 
