@@ -56,9 +56,10 @@ const group = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.GROUP_FAIL));
         }
     
+        // 그룹에 유저 없음
         if (userResult.length == 0) {
             return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.GROUP_FAIL));
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.GROUP_NO_ONE));
         }
     
         res.status(statusCode.OK)

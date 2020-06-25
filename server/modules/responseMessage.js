@@ -16,6 +16,7 @@ module.exports = {
     // 그룹 
     GROUP_SUCCESS: "그룹 조회 성공",
     GROUP_FAIL: "그룹 조회 실패",
+    GROUP_NO_ONE: "그룹 내 멤버가 없습니다.",
     GROUP_ADD_SUCCESS: "그룹 추가 성공",
     GROUP_ADD_FAIL: "그룹 추가 실패",
     GROUP_IN_SUCCESS: "그룹 들어가기 성공",
