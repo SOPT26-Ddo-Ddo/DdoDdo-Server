@@ -3,10 +3,10 @@ const encrypt = require('../modules/encryption');
 const table = 'User';
 
 const user = {
-    signup: async (id, pwd, salt, name, gender, profileMsg) => {
-        const fields = 'id, pwd, salt, name, gender, profileMsg';
-        const questions = '?,?,?,?,?,?';
-        const values = [id, pwd, salt, name, gender, profileMsg];
+    signup: async (id, pwd, salt, name, gender, profileMsg, profileImg) => {
+        const fields = 'id, pwd, salt, name, gender, profileMsg, profileImg';
+        const questions = '?,?,?,?,?,?,?';
+        const values = [id, pwd, salt, name, gender, profileMsg, profileImg];
         const query = `INSERT INTO ${table}(${fields}) VALUES(${questions})`;
         try {
             const result = await pool.queryParamArr(query, values);
@@ -71,6 +71,18 @@ const user = {
             const result = await pool.queryParam(query);
             return result;
         } catch (err) {
+            throw err;
+        }
+    },
+    updateProfile: async (userIdx, profile) => {
+        let query = `UPDATE ${table} SET profileImg="${profile}" WHERE userIdx="${userIdx}"`;
+        try {
+            await pool.queryParam(query);
+            query = `SELECT id, name, profileMsg, profileImg FROM ${table} WHERE userIdx="${userIdx}"`;
+            const result = await pool.queryParam(query);
+            return result;
+        } catch (err) {
+            console.log('update profile ERROR : ', err);
             throw err;
         }
     },

@@ -41,6 +41,12 @@ module.exports = {
     MANITO_SUCCESS: "마니또 매칭 성공",
     MANITO_FAIL: "마니또 매칭 실패",
     MANITO_LACK_USER: "마니또 매칭하기에 인원이 부족합니다.",
+
+    // 프로필 이미지 업데이트
+    PROFILE_NO_IMAGE: "프로필 이미지가 없습니다.",
+    PROFILE_UNSUPPORTED_TYPE: "지원하지 않는 이미지 확장자 입니다.",
+    PROFILE_FAIL: "프로필 이미지 업데이트 실패",
+    PROFILE_SUCCESS: "프로필 이미지 업데이트 성공",
     
     DB_ERROR: "DB 오류"
 };

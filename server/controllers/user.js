@@ -14,21 +14,34 @@ const user = {
             gender,
             profileMsg
         } = req.body;
-        // 1. empty value
+
+        // empty value
         if (!id || !pwd || !name || !gender) {
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
 
-        // 2. duplicated id
+        // duplicated id
         if (await UserModel.checkUser(id)) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.ALREADY_ID));
         }
 
+        let profileImg = null
+        // profile img 있을 시, 데이터 추가
+        if (req.file !== undefined) {
+            profileImg = req.file.location; // 파일 데이터
+            // image type check
+            const type = req.file.mimetype.split('/')[1];
+            if (type !== 'jpeg' && type !== 'jpg' && type !== 'png') {
+                return res.status(CODE.BAD_REQUEST)
+                    .send(util.fail(CODE.BAD_REQUEST, MSG.UNSUPPORTED_TYPE));
+            }
+        }
+
         const salt = encrypt.makeSalt();
         const newPwd = encrypt.encryption(pwd, salt);
 
-        const idx = await UserModel.signup(id, newPwd, salt, name, gender, profileMsg);
+        const idx = await UserModel.signup(id, newPwd, salt, name, gender, profileMsg, profileImg);
         if (idx === -1) {
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
@@ -101,15 +114,40 @@ const user = {
                 userId: user[0].id,
                 name: user[0].name,
                 gender: user[0].gender,
-                profileMsg: user[0].profileMsg
+                profileMsg: user[0].profileMsg,
+                profileImg: user[0].profileImg
             }));
     },
     getProfile: async (req, res) => {
-        userList = await UserModel.getUserList()
+        const userList = await UserModel.getUserList()
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_PROFILE_SUCCESS, {
                 userList
             }));
+    },
+    updateProfile: async (req, res) => {
+        const userIdx = req.decoded.idx;
+        if (req.file === undefined) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.PROFILE_NO_IMAGE));
+        }
+
+        const profileImg = req.file.location; // 파일 데이터
+        // data check - undefined
+        if (profileImg === undefined || !userIdx) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.PROFILE_NO_IMAGE));
+        }
+        // image type check
+        const type = req.file.mimetype.split('/')[1];
+        if (type !== 'jpeg' && type !== 'jpg' && type !== 'png') {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.UNSUPPORTED_TYPE));
+        }
+
+        const result = await UserModel.updateProfile(userIdx, profileImg);
+        return res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.PROFILE_SUCCESS, result));
     }
 }
 
