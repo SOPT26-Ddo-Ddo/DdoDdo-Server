@@ -51,13 +51,13 @@ const group = {
         const userResult = await GroupModel.getGroupUserRead(groupIdx);
     
         // 해당 그룹 존재하지 않음
-        if (groupResult.length == 0) {
+        if (groupResult.length === 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.GROUP_FAIL));
         }
     
         // 그룹에 유저 없음
-        if (userResult.length == 0) {
+        if (userResult.length === 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.GROUP_NO_ONE));
         }
@@ -71,11 +71,10 @@ const group = {
     setManito: async (req, res) => {
         const groupIdx = req.params.groupIdx;
         const userResult = await GroupModel.getGroupUserRead(groupIdx); //특정 그룹 사용자 조회
-        console.log(userResult.length);
         // 해당 그룹 존재하지 않음
-        if (userResult.length == 0) {
+        if (userResult.length < 2) {
             return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.MANITTO_FAIL));
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.MANITO_LACK_USER));
         }
     
         const manitoList = await manito.getManito(userResult, groupIdx);
@@ -90,7 +89,7 @@ const group = {
         const userManito = await UserModel.getUserByIdx(manitoList[user.idx]);
     
         res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.MANITTO_SUCCESS, {
+            .send(util.success(statusCode.OK, resMessage.MANITO_SUCCESS, {
                 'myManito': userManito[0]
             }));
     }

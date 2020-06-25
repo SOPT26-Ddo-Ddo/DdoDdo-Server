@@ -40,6 +40,7 @@ module.exports = {
     // 마니또 생성
     MANITO_SUCCESS: "마니또 매칭 성공",
     MANITO_FAIL: "마니또 매칭 실패",
+    MANITO_LACK_USER: "마니또 매칭하기에 인원이 부족합니다.",
     
     DB_ERROR: "DB 오류"
 };
